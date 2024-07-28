@@ -13,23 +13,23 @@ router.post("/create-student",async (req,res) => {
     }
 });
 
-router.patch("/update-student",async(req,res) => {
-    try {
-        const resp = await updateStudent(req.body);
-        res.status(200).send(resp);
-    } catch (err) {
-        res.send(err.message);
-    }
-});
+// router.patch("/update-student",async(req,res) => {
+//     try {
+//         const resp = await updateStudent(req.body);
+//         res.status(200).send(resp);
+//     } catch (err) {
+//         res.send(err.message);
+//     }
+// });
 
-router.post("/delete-student",async(req,res) => {
-    try {
-        const resp = await deleteStudent(req.body);
-        res.status(200).send(resp);
-    } catch (err) {
-        res.send(err.message);
-    }
-});
+// router.post("/delete-student",async(req,res) => {
+//     try {
+//         const resp = await deleteStudent(req.body);
+//         res.status(200).send(resp);
+//     } catch (err) {
+//         res.send(err.message);
+//     }
+// });
 
 router.post("/create-teacher",async(req,res) => {
     try {
@@ -40,23 +40,23 @@ router.post("/create-teacher",async(req,res) => {
     }
 });
 
-router.patch("/update-teacher",async (req, res) => {
-    try {
-        const resp = await updateTeacher(req.body);
-        res.status(200).send(resp);
-    } catch (err) {
-        res.send(err.message);
-    }
-});
+// router.patch("/update-teacher",async (req, res) => {
+//     try {
+//         const resp = await updateTeacher(req.body);
+//         res.status(200).send(resp);
+//     } catch (err) {
+//         res.send(err.message);
+//     }
+// });
 
-router.post("/delete-teacher",async(req, res) => {
-    try {
-        const resp = await deleteTeacher(req.body);
-        res.status(200).send(resp);
-    } catch (err) {
-        res.send(err.message);
-    }
-});
+// router.post("/delete-teacher",async(req, res) => {
+//     try {
+//         const resp = await deleteTeacher(req.body);
+//         res.status(200).send(resp);
+//     } catch (err) {
+//         res.send(err.message);
+//     }
+// });
 
 router.patch("/delete-multiple-students",() => {
 
