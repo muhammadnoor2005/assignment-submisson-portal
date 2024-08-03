@@ -4,7 +4,7 @@ if(process.env.NODE_ENV !== "production"){
 
 
 const express = require("express");
-const path = require("path");
+// const path = require("path");
 const bodyParser = require("body-parser");
 const auth = require("./routes/auth");
 const methodOverride = require("method-override");
@@ -37,6 +37,9 @@ app.use(cors());
 app.set("view engine","ejs");
 app.set("views","views");
 
+app.get("/",(req,res)=>{
+    res.send("Hello world!");
+});
 
 app.use("/auth",auth);
 app.use("/profile",verify,profile);
@@ -45,6 +48,10 @@ app.use("/admin_portal", admin_portal);
 app.use("/teacher", teacher);
 app.use("/classroom", classroom);
 app.use("/assignment",assignment);
+
+app.use("*",(req,res)=>{
+    res.send("Route invalid");
+});
 
 app.listen(8000,() => { 
     console.log("Server started");
