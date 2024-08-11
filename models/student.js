@@ -4,6 +4,7 @@ const { findStudent } = require("./admin_portal");
 
 const Students = require("./db/students");
 const Assignemnt = require("./db/assignment");
+const Classroom = require("./db/classroom");
 // const Classroom = require("./db/classroom");
 
 //  data contains :first_name, last_nmae,NIC, roll_number, batch, email, password,img(optional)
@@ -130,8 +131,10 @@ const assignmentHistory = async (data) => {
         const submittedAssignments = await Assignemnt.find({"completedBy.student_id":student_id, room_id});
 
         //getting completed assignmnets array
-        const toBeCompletedBy = await Assignemnt.find({toBeCompletedBy:student_id, room_id});
-
+        const toBeCompletedBy = await Assignemnt.find({room_id}) || ['no data found'];
+        // const findBySTdID = toBeCompletedBy.includes(student_id);
+        console.log(toBeCompletedBy);
+        // console.log(toBeCompletedBy);
         if(submittedAssignments || toBeCompletedBy){
             const stdAssignments = {
                 submittedAssignments,
@@ -213,4 +216,28 @@ const deleteAssignment = async(data) => {
         throw(err);
     }
 }
-module.exports = { findStudentByEmail, getStudent, assignmentHistory, submitAssignment, deleteAssignment};
+
+//when std clicks a specific room it opens the room
+//data contains: room_id, student_id
+const studentRoom = async(data) => {
+    try {
+        const{room_id, student_id} = data;
+        
+        const room = await Classroom.findOne({room_id, student_ids:student_id});
+        
+        if(room){
+            const assignments = await assignmentHistory(data);
+            const stdRoom = {
+                room,
+                assignments
+            }
+
+            return stdRoom;
+        } else{
+            return 'Room not found!';
+        }
+    } catch (err) {
+        throw(err);
+    }
+}
+module.exports = { findStudentByEmail, getStudent, assignmentHistory, submitAssignment, deleteAssignment, studentRoom};
