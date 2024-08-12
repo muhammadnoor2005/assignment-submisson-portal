@@ -1,4 +1,4 @@
-const { createRoom, joinRoom, getRoomStudents, editRoomName, deleteRoom, getRoomAssignments } = require("../models/classroom");
+const { createRoom, joinRoom, getRoomStudents, editRoomName, deleteRoom, getRoomAssignments, generateJoinLink } = require("../models/classroom");
 
 exports.createRoom = async (data) => {
     try {
@@ -63,6 +63,14 @@ exports.removeStudent = async(data) => {
 exports.getRoomAssignments = async(data) => {
     try {
         return await getRoomAssignments(data);
+    } catch (err) {
+        throw(err);
+    }
+}
+
+exports.generateJoinLink = async(data) => {
+    try {
+        return await generateJoinLink(data);
     } catch (err) {
         throw(err);
     }

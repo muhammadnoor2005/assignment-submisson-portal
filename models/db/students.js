@@ -8,6 +8,13 @@ const studentSchema = new mongoose.Schema({
     batch:Number,
     roll_number:String,
 
+    //number,city,gender,last_qualication,dob,
+    phone_number:String,
+    city:String,
+    gender:String,
+    last_qulification:String,
+    date_of_birth:String,
+
     email:String,
     password:String,
 
@@ -18,8 +25,11 @@ const studentSchema = new mongoose.Schema({
 
     // teacher_id:String,
 
-    classrooms:[String], 
-    course:String
+    classrooms:[String],
+    courses:[{
+        name:String,// Web and mobile
+        timings:String //format:4:00PM-6:00PM
+    }]
 
 })
 

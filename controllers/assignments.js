@@ -1,6 +1,5 @@
 const { createAssignment, editAssignment, deleteAssignment, scheduledAssignment } = require("../models/assignment");
 
-
 exports.createAssignment = async(data) => {
     try {
         return await createAssignment(data);

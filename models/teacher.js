@@ -134,11 +134,11 @@ const searchStudentInRoom = async (data) => {
 }
 
 //get profile of student by teacher and student
-// data contains: NIC
+// data contains: teacher_id
 const getTeacher = async(data) => {
     try {
-        const {NIC} = data;
-        const teacher = await Teachers.findOne({NIC}).select("first_name last_name email").exec();
+        const {teacher_id} = data;
+        const teacher = await Teachers.findOne({NIC:teacher_id}).select("first_name last_name email").exec();
 
         if(teacher){
             return teacher;

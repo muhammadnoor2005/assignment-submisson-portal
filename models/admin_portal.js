@@ -32,7 +32,7 @@ const findStudentByRollNo = (roll_number) => {
 //checking if tecaher already exists
 const findTeacherByNIC = async(NIC) => {
     return new Promise((resolve,reject) => {
-        const teacher = Teachers.findOne({NIC});
+        const teacher = Teachers.findOne({NIC}).explain("executionStats");
         if(!teacher){
             reject("No users");
         }
@@ -89,7 +89,7 @@ const createTeacher = async(data) => {
         const {email, NIC} = data;
 
         const { checkNICExistence, checkEmailExistence } = require("./user");
-        
+
         const isNICExists = await checkNICExistence(NIC);
         const isEmailExistT = await checkEmailExistence(email);
 

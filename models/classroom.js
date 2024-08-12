@@ -3,6 +3,8 @@ const Assignemnt = require("./db/assignment");
 const Classroom = require("./db/classroom");
 const Students = require("./db/students");
 const Teachers = require("./db/teachers");
+const {SECRET_KEY} = require("../data/key");
+const jwt = require("jsonwebtoken");
 
 //find room by id
 // const findRoomById = async (room_id) =>{
@@ -18,13 +20,44 @@ const Teachers = require("./db/teachers");
 
 // create new class-room
 // data contains:  name, teacher_id
+// const createRoom = async(data) => {
+//     try {
+//         const date = new Date();
+//         const roomID = date.getTime().toString();
+
+//         // NIC of teacher and room name
+//         const {teacher_id, name} = data;
+
+//         data.room_id = roomID;
+
+//         const teacher = await Teachers.findOne({NIC:teacher_id});
+        
+//         const roomData = {
+//             room_id:roomID,
+//             room_name:name
+//         };
+
+//         teacher.classrooms.push(roomData);
+//         await teacher.save();
+
+        
+//         const writeData = new Classroom(data);
+//         await writeData.save();
+
+//         return roomID;
+//     } catch (err) {
+//         throw(err);
+//     }
+// }
+
+// create new class-room
+// data contains:  name, teacher_id, timings, course_name, batch
 const createRoom = async(data) => {
     try {
         const date = new Date();
         const roomID = date.getTime().toString();
 
-        // NIC of teacher and room name
-        const {teacher_id, name} = data;
+        const {teacher_id, name, timings, course_name, batch} = data;
 
         data.room_id = roomID;
 
@@ -42,11 +75,55 @@ const createRoom = async(data) => {
         const writeData = new Classroom(data);
         await writeData.save();
 
-        return roomID;
+        return {
+            roomID,//will be saved on fend locally
+            message:"room created!"
+        };
+        
     } catch (err) {
         throw(err);
     }
 }
+
+//updated function ehat adds stduent auto when room is created
+// data contains:  name, teacher_id, timings, course_name, batch
+// const createRoom = async(data) => {
+//     try {
+//         const date = new Date();
+//         const roomID = date.getTime().toString();
+
+//         // NIC of teacher and room name
+//         const {teacher_id, name, timings, course_name, batch} = data;
+
+//         data.room_id = roomID;
+
+//         const teacher = await Teachers.findOne({NIC:teacher_id});
+
+//         //finding stdeunts ti add in classroom
+//         const students = await Students.find({batch, 'courses.name':course_name, 'courses.timings':timings}).select("NIC").exec();
+
+//         // making an array that only contains NIC
+//         const studentIds = students.map(s => s.NIC);
+
+//         data.student_ids = studentIds;
+        
+//         const roomData = {
+//             room_id:roomID,
+//             room_name:name
+//         };
+
+//         teacher.classrooms.push(roomData);
+//         await teacher.save();
+
+        
+//         const writeData = new Classroom(data);
+//         await writeData.save();
+
+//         return roomID;
+//     } catch (err) {
+//         throw(err);
+//     }
+// }
 
 //basic info of room
 //data contains roomID
@@ -86,8 +163,8 @@ const joinRoom = async(data) => {
                 await Classroom.updateOne({room_id}, {$push:{student_ids:student_id}});
             
                 // adding student to classroom student's array
-                classroom.student_ids.push(student_id);
-                classroom.save();
+                // classroom.student_ids.push(student_id);
+                // classroom.save();
 
                 return("Room joined!");
             } else{
@@ -102,6 +179,8 @@ const joinRoom = async(data) => {
         throw(err);
     }
 }
+
+
 
 //when student leave rooms
 //data contains student_id(nic), room_id
@@ -239,4 +318,15 @@ const getRoomAssignments = async(data) => {
         throw(err);
     }
 }
-module.exports = {createRoom, joinRoom, getRoomStudents, editRoomName, deleteRoom, removeStudent, getRoom, getTeacherRooms, leaveRoom, getRoomAssignments};
+
+// data contains: teacher_id, room_id
+const generateJoinLink = async(data) => {
+    try {        
+        const joinLink = jwt.sign(data ,SECRET_KEY,{expiresIn:"12h"});
+        return {joinLink};
+    } catch (err) {
+        throw(err);
+    }
+}
+
+module.exports = {createRoom, joinRoom, getRoomStudents, editRoomName, deleteRoom, removeStudent, getRoom, getTeacherRooms, leaveRoom, getRoomAssignments, generateJoinLink};

@@ -7,6 +7,10 @@ const classroomSchema = new mongoose.Schema({
     name:String,
     teacher_id:String,
 
+    timings:String,
+    course_name:String,
+    batch:String,
+
     student_ids:[String],
 
     // assignments:{
@@ -16,6 +20,7 @@ const classroomSchema = new mongoose.Schema({
     //     schduled:[String] //scheduled assignments
     // }
 });
+
 
 const Classroom = mongoose.model("Classroom", classroomSchema);
 module.exports = Classroom;

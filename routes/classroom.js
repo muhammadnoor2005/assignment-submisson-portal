@@ -1,6 +1,9 @@
 const express = require("express");
-const { createRoom, joinRoom, getRoomStudents, editRoomName, deleteRoom, removeStudent, getRoomAssignments } = require("../controllers/classroom");
+const { createRoom, joinRoom, getRoomStudents, editRoomName, deleteRoom, removeStudent, getRoomAssignments, generateJoinLink } = require("../controllers/classroom");
 const router = express.Router();
+const jwt = require("jsonwebtoken");
+const {SECRET_KEY} = require("../data/key");
+const { isRoomLinkValid } = require("../middlewares/auth");
 
 router.post("/create-room", async(req, res)=>{
     try {
@@ -11,7 +14,8 @@ router.post("/create-room", async(req, res)=>{
     }
 });
 
-router.post("/join-room", async(req,res)=>{
+
+router.post("/join-room", isRoomLinkValid, async(req,res)=>{
     try {
         const resp = await joinRoom(req.body);
         res.status(200).send(resp);
@@ -58,7 +62,7 @@ router.post("/remove-student", async(req, res)=>{
 });
 
 // all assignments of a the room
-router.post("/get-assignment", async(req,res) => {
+router.post("/get-assignments", async(req,res) => {
     try {
         const resp = await getRoomAssignments(req.body);
         res.status(200).send(resp);
@@ -66,6 +70,15 @@ router.post("/get-assignment", async(req,res) => {
         res.send(err.message);
     }
 });
+
+router.post("/generate-join-link", async(req,res) => {
+    try {
+        const resp = await generateJoinLink(req.body);
+        res.status(200).send(resp);
+    } catch (err) {
+        res.send(err.message);
+    }
+})
 
 router.post("/post-assignment", () => {
 

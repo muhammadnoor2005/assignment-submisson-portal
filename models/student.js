@@ -131,10 +131,8 @@ const assignmentHistory = async (data) => {
         const submittedAssignments = await Assignemnt.find({"completedBy.student_id":student_id, room_id});
 
         //getting completed assignmnets array
-        const toBeCompletedBy = await Assignemnt.find({room_id}) || ['no data found'];
-        // const findBySTdID = toBeCompletedBy.includes(student_id);
-        console.log(toBeCompletedBy);
-        // console.log(toBeCompletedBy);
+        const toBeCompletedBy = await Assignemnt.find({toBeCompletedBy:student_id ,room_id});
+       
         if(submittedAssignments || toBeCompletedBy){
             const stdAssignments = {
                 submittedAssignments,
@@ -240,4 +238,5 @@ const studentRoom = async(data) => {
         throw(err);
     }
 }
+
 module.exports = { findStudentByEmail, getStudent, assignmentHistory, submitAssignment, deleteAssignment, studentRoom};

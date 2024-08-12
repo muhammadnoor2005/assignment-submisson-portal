@@ -3,7 +3,7 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const { SECRET_KEY } = require("../data/key");
 
-const { studentSignup, updateStdProfile, findStudentByEmail, getStudent, assignmentHistory, submitAssignment } = require("../models/student");
+const { studentSignup, updateStdProfile, findStudentByEmail, getStudent, assignmentHistory, submitAssignment, studentRoom } = require("../models/student");
 const { deleteStudent } = require("../models/admin_portal");
 const { removeStudent } = require("../models/classroom");
 
@@ -129,6 +129,14 @@ exports.submitAssignment = async(data) => {
 exports.deleteAssignment = async(data) => {
     try {
         return await deleteAssignment(data);
+    } catch (err) {
+        throw(err);
+    }
+}
+
+exports.studentRoom = async(data) => {
+    try {
+        return await studentRoom(data);
     } catch (err) {
         throw(err);
     }

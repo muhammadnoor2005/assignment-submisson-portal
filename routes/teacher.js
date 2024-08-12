@@ -2,14 +2,14 @@ const express = require("express");
 const { teacherSignup, updateTeacherProfile, teacherLogin, deleteTeacher, searchStudent, searchStudentInRoom, getTeacher, teacherAssignments } = require("../controllers/teachers");
 const router = express.Router();
 
-router.post("/signup", async(req, res)=>{
-    try {
-        const resp = await teacherSignup(req.body); 
-        res.status(200).send(resp);
-    } catch (err) {
-        res.send(err.message);
-    }
-});
+// router.post("/signup", async(req, res)=>{
+//     try {
+//         const resp = await teacherSignup(req.body); 
+//         res.status(200).send(resp);
+//     } catch (err) {
+//         res.send(err.message);
+//     }
+// });
 
 router.post("/login",async (req,res)=>{
     try {
@@ -20,18 +20,18 @@ router.post("/login",async (req,res)=>{
     }
 });
 
-router.post("/create-room", ()=>{
+// router.post("/create-room", ()=>{
 
-});
+// });
 
-router.patch("/update-profile", async(req,res) => {
-    try {
-        const resp = await updateTeacherProfile(req.body);
-        res.status(200).send(resp);
-    } catch (err) {
-        res.send(err.message);
-    }
-});
+// router.patch("/update-profile", async(req,res) => {
+//     try {
+//         const resp = await updateTeacherProfile(req.body);
+//         res.status(200).send(resp);
+//     } catch (err) {
+//         res.send(err.message);
+//     }
+// });
 
 router.post("/delete-teacher",async(req, res) => {
     try {

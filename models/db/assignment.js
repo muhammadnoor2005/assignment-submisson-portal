@@ -12,7 +12,7 @@ const assignemntSchema = new mongoose.Schema({
     room_id:String,
 
     teacher_id:String,
-    classroom_id:String,
+    // classroom_id:String,
 
     // assignedTo:[String],
 

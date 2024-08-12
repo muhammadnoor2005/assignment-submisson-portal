@@ -88,7 +88,7 @@
 
 
 const express = require("express");
-const { studentSignup, updateStdProfile, studentLogin, deleteStudent, getStudent, assignmentHistory, submitAssignment, deleteAssignment } = require("../controllers/students");
+const { studentSignup, updateStdProfile, studentLogin, deleteStudent, getStudent, assignmentHistory, submitAssignment, deleteAssignment, studentRoom, leaveRoom } = require("../controllers/students");
 const router = express.Router();
 
 const {storage} = require("../cloudinary");
@@ -196,6 +196,15 @@ router.post("/submit-assignment",parser.single("assignment") ,async(req,res) => 
 router.post("/delete-assignment", async(req,res) => {
     try {
         const resp = await deleteAssignment(req.body);
+        res.status(200).send(resp);
+    } catch (err) {
+        res.send(err.message);
+    }
+});
+
+router.post("/room", async(req,res) => {
+    try {
+        const resp = await studentRoom(req.body);
         res.status(200).send(resp);
     } catch (err) {
         res.send(err.message);
